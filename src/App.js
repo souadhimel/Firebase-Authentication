@@ -1,9 +1,9 @@
 
 import './App.css';
 import { FcGoogle} from "react-icons/fc";
-import { BsGithub } from "react-icons/bs";
+import { BsGithub,BsFacebook } from "react-icons/bs";
 import app from './firebase.init';
-import { getAuth, GithubAuthProvider, GoogleAuthProvider, signInWithPopup, signOut } from "firebase/auth";
+import { FacebookAuthProvider, getAuth, GithubAuthProvider, GoogleAuthProvider, signInWithPopup, signOut } from "firebase/auth";
 import { useState } from 'react';
 
 const auth = getAuth(app);
@@ -14,6 +14,7 @@ function App() {
   // Provider
   const googleProvider= new GoogleAuthProvider();
   const gitHubProvider = new GithubAuthProvider();
+  const facebookProvider = new FacebookAuthProvider();
 
 
 // storing data
@@ -48,6 +49,20 @@ const handleGithubLogin=()=>{
 
 }
 
+// facebook login
+const handleFacebookLogin=()=>{
+  signInWithPopup(auth,facebookProvider)
+    .then(result=>{
+      const user = result.user;
+      // setUser(user);
+      console.log(user);
+    })
+    .catch(error=>{
+      console.log(error);
+    })
+
+}
+
   // Sign out (google/github)
   const handleGoogleSignOut=()=>{
     signOut(auth)
@@ -67,6 +82,7 @@ user.uid?<button onClick={handleGoogleSignOut}>Sign out  <FcGoogle></FcGoogle></
 <>
 <button onClick={handleGoogleLogin}>Google authentication  <FcGoogle></FcGoogle> </button>
 <button onClick={handleGithubLogin}>Github Login  <BsGithub></BsGithub></button>
+<button onClick={handleFacebookLogin}>Facebook Login  <BsFacebook></BsFacebook>  </button>
 </> 
    }
    
